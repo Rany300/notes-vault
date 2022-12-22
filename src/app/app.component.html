@@ -7,8 +7,18 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<div class="font-bold text-2xl">
-  Hello {{ title }}!
+<style>
+  
+</style>
+
+<div class="main">
+  <div class="navigation">
+    <a routerLink="/home" routerLinkActive="active" class="nav-item">Home</a>
+    <a routerLink="/about" routerLinkActive="active" class="nav-item">About</a>
+    <a routerLink="/contact" routerLinkActive="active" class="nav-item">Contact</a>
+    <a routerLink="/login" routerLinkActive="active" class="nav-item">Login</a> 
+  </div>
+  <app-login-view></app-login-view>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
