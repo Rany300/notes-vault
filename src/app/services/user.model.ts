@@ -1,3 +1,4 @@
+import { Note } from "./note.model";
 export type User = {
     uid: string;
     email?: string | null;

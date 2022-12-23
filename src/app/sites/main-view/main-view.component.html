@@ -1,0 +1,2 @@
+<app-login-view *ngIf="!(authService.user$ | async)"></app-login-view>
+<app-notes-view *ngIf="authService.user$ | async"></app-notes-view>

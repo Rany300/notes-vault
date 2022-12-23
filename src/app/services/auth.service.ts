@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from './user.model';
 
-import { AuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider } from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
@@ -30,7 +30,6 @@ export class AuthService {
       })
     );
     this.logUserDetails();
-
   }
 
   private updateUserData(user: User) {
@@ -59,17 +58,19 @@ export class AuthService {
     return this.router.navigate(['/']);
   }
 
-
   async logUserDetails() {
-    console.log('User details: ', this
-      .user$
-      .subscribe((user) => {
-        console
-          .log('User details: ', user
-            ? user
-            : 'No user');
-      }));
-    }
+    console.log(
+      'User details: ',
+      this.user$.subscribe((user) => {
+        console.log('User details: ', user ? user : 'No user');
+      })
+    );
+  }
 
-
+  public get user(): User | null | undefined {
+    this.user$.subscribe((user) => {
+      return user;
+    });
+    return null;
+  }
 }

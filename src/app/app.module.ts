@@ -8,6 +8,8 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { LoginViewComponent } from './sites/login-view/login-view.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavigationComponent } from './components/main/navigation/navigation.component';
+import { NotesViewComponent } from './sites/notes-view/notes-view.component';
+import { MainViewComponent } from './sites/main-view/main-view.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { NavigationComponent } from './components/main/navigation/navigation.com
     LoginComponent,
     LoginViewComponent,
     NavigationComponent,
+    NotesViewComponent,
+    MainViewComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,7 @@
 
 <div class="main">
   <app-navigation [navigationProps]="navigationProps"></app-navigation>
-  <app-login-view *ngIf="!(authService.user$ | async)"></app-login-view>
+  <router-outlet></router-outlet>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -19,5 +19,3 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-<router-outlet></router-outlet>
