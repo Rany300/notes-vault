@@ -1,0 +1,37 @@
+<div class="navigation">
+  <!-- <a routerLink="/home" routerLinkActive="active" class="nav-item">Home</a>
+    <a routerLink="/about" routerLinkActive="active" class="nav-item">About</a>
+    <a routerLink="/contact" routerLinkActive="active" class="nav-item">Contact</a>
+    <a class="nav-item" *ngIf="authService.user$ | async" (click)="authService.signOut()">Sign Out</a> -->
+
+  <ng-container *ngFor="let navItem of navigationProps">
+    <ng-container *ngIf="navItem.viewable === 'always'">
+      <a
+        routerLink="{{ navItem.path }}"
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="navItem.action ? navItem.action() : null"
+        >{{ navItem.name }}</a
+      >
+    </ng-container>
+    <ng-container
+      *ngIf="navItem.viewable === 'logged-in' && (authService.user$ | async)">
+      <a
+        routerLink="{{ navItem.path }}"
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="navItem.action ? navItem.action() : null"
+        >{{ navItem.name }}</a
+      >
+    </ng-container>
+    <ng-container
+      *ngIf="navItem.viewable === 'logged-out' && !(authService.user$ | async)" (click)="navItem.action ? navItem.action() : null">
+      <a
+        routerLink="{{ navItem.path }}"
+        routerLinkActive="active"
+        class="nav-item"
+        >{{ navItem.name }}</a
+      >
+    </ng-container>
+  </ng-container>
+</div>

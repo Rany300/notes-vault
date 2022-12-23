@@ -1,6 +1,10 @@
 <div class="buttonGroup">
-  <button type="button" (click)="authService.GoogleAuth()" class="btn google">
+  <button type="button" (click)="authService.googleSignin()" class="btn google">
     Log in with Google
     <fa-icon [icon]="faGoogle"></fa-icon>
   </button>
+  <button type="button" (click)="authService.signOut()" class="btn google">
+    Sign Out
+    </button>
+    
 </div>
