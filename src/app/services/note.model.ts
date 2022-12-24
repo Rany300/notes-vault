@@ -1,9 +1,8 @@
 export type Note = {
-    uid: string;
     title: string;
     content: string;
     date: string;
     updatedAt: string;
-    color: string;
+    color: 'yellow' | 'green' | 'blue' | 'red';
     isPinned: boolean;
 }

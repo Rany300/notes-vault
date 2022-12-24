@@ -11,6 +11,12 @@ import { v4 as uuidv4 } from 'uuid';
   providedIn: 'root',
 })
 export class NotesService {
+
+  // static maxNotes = 100;
+
+
+  private static readonly MAX_NOTES = 5;
+  
   notes$: Observable<Note[] | null | undefined>;
 
   constructor(
@@ -36,18 +42,25 @@ export class NotesService {
     this.notes$.subscribe((notes) => {
       console.log(notes);
     });
+
+    // this.addNote(
+    //   "Note Title",
+    //   "Note Content",
+    //   "yellow",
+    //   false
+    // );
+
   }
 
   async addNote(
-    title: string,
-    content: string,
-    color: string,
-    isPinned: boolean
+    title: Note['title'],
+    content: Note['content'],
+    color: Note['color'],
+    isPinned: Note['isPinned']
   ) {
     this.notes$.subscribe((notes) => {
-      if (notes !== null) {
+      if (notes !== null && notes !== undefined) {
         const note: Note = {
-          uid: uuidv4(),
           title: title,
           content: content,
           date: new Date().toISOString(),
@@ -56,11 +69,46 @@ export class NotesService {
           isPinned: isPinned,
         };
         this.authService.user$.subscribe((user) => {
-          if (user !== null && user !== undefined) {
+          if (user !== null && user !== undefined &&  notes.length < NotesService.MAX_NOTES) {
             this.afs.collection(`notes/${user.uid}/notes`).add(note);
           }
         });
       }
     });
   }
+
+
+
+  async deleteNote(
+    uid: string
+  ) {
+    this.authService.user$.subscribe((user) => {
+      if (user !== null && user !== undefined) {
+        this.afs.collection(`notes/${user.uid}/notes`).doc(uid).delete();
+      }
+    });
+  }
+
+
+  async updateNote(
+    uid: string,
+    title: Note['title'],
+    content: Note['content'],
+    color: Note['color'],
+    isPinned: Note['isPinned']
+  ) {
+    this.authService.user$.subscribe((user) => {
+      if (user !== null && user !== undefined) {
+        this.afs.collection(`notes/${user.uid}/notes`).doc(uid).update({
+          title: title,
+          content: content,
+          updatedAt: new Date().toISOString(),
+          color: color,
+          isPinned: isPinned,
+        });
+      }
+    });
+  }
+
+
 }

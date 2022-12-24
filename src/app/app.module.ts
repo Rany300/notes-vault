@@ -10,7 +10,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavigationComponent } from './components/main/navigation/navigation.component';
 import { NotesViewComponent } from './sites/notes-view/notes-view.component';
 import { MainViewComponent } from './sites/main-view/main-view.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatCardModule} from '@angular/material/card';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,8 +28,11 @@ import { MainViewComponent } from './sites/main-view/main-view.component';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     FontAwesomeModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule,
+    MatCardModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
