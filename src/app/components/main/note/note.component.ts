@@ -60,6 +60,7 @@ export class NoteComponent implements OnInit {
       .pipe(debounceTime(NoteComponent.DEBOUNCE_TIME), distinctUntilChanged())
       .subscribe((input) => {
         this.note.content = input;
+        console.log(this.note.content);
         this.updateNote();
       });
   }

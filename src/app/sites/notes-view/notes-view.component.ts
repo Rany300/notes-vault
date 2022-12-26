@@ -11,7 +11,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class NotesViewComponent implements OnInit {
 
-  activeNote$: Observable<Note | undefined | null>;
+  activeNote$: Observable<string | undefined | null>;
 
 
   constructor(
@@ -24,8 +24,7 @@ export class NotesViewComponent implements OnInit {
   }
 
   onNoteClick(note: Note) {
-    console.log(note.uid);
-    this.activeNote$ = of(note);
+    this.activeNote$ = of(note.uid);
   }
 
 }
