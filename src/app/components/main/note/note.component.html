@@ -1,7 +1,7 @@
 <div class="note" [ngStyle]="{'background-color': note.color}" [ngClass]="{'active-note': active}">
     <div class="note-header">
-        <div class="note-title">{{note.title}}</div>
+        <div class="note-title" [contentEditable]="active">{{note.title}}</div>
         <div class="note-date">{{note.date | date: 'short'}}</div>
     </div>
-    <div class="note-content">{{note.content}}</div>
+    <div class="note-content" [contentEditable]="active">{{note.content}}</div>
 </div>
