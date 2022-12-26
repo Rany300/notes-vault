@@ -1,12 +1,6 @@
 
     <div *ngIf="notesService.notes$ | async as notes" class="notes">
-        <div *ngFor="let note of notes" class="note" [ngStyle]="{'background-color': note.color}" (click)="onNoteClick(note)" [ngClass]="{'active-note': (activeNote$ | async) === note}">
-            <div class="note-header">
-                <div class="note-title">{{note.title}}</div>
-                <div class="note-date">{{note.date | date: 'short'}}</div>
-            </div>
-            <div class="note-content">{{note.content}}</div>
-        </div>
+        <app-note *ngFor="let note of notes" [note]="note" [active]="(activeNote$ | async) === note"(click)="onNoteClick(note)"></app-note>
     </div>
         
     <div *ngIf="!(notesService.notes$ | async)">
