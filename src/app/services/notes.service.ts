@@ -57,7 +57,9 @@ export class NotesService {
     );
   }
 
-  // NOT USE ANYMORE - USE UPSERT INSTEAD
+  /**
+ * @deprecated Has been replaced by upsertNote
+ */
   async addNote(
     title: Note['title'],
     content: Note['content'],
