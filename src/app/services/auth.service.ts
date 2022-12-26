@@ -6,7 +6,7 @@ import { GoogleAuthProvider } from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable({
@@ -29,7 +29,6 @@ export class AuthService {
         }
       })
     );
-    this.logUserDetails();
   }
 
   private updateUserData(user: User) {
@@ -58,19 +57,8 @@ export class AuthService {
     return this.router.navigate(['/']);
   }
 
-  async logUserDetails() {
-    console.log(
-      'User details: ',
-      this.user$.subscribe((user) => {
-        console.log('User details: ', user ? user : 'No user');
-      })
-    );
+  public get user (): Promise<User | null > {
+     return this.afAuth.currentUser;
   }
 
-  public get user(): User | null | undefined {
-    this.user$.subscribe((user) => {
-      return user;
-    });
-    return null;
-  }
 }

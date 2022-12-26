@@ -18,13 +18,13 @@ export class NotesViewComponent implements OnInit {
     public notesService: NotesService
   ) { 
     this.activeNote$ = of(null);
-
   }
 
   ngOnInit(): void {
   }
 
   onNoteClick(note: Note) {
+    console.log(note.uid);
     this.activeNote$ = of(note);
   }
 

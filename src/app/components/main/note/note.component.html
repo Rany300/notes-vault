@@ -1,7 +1,9 @@
 <div class="note" [ngStyle]="{'background-color': note.color}" [ngClass]="{'active-note': active}">
     <div class="note-header">
-        <div class="note-title" [contentEditable]="active">{{note.title}}</div>
+        <!-- <div class="note-close" (click)="onCloseClick()"><i class="fa fa-times"></i></div> -->
+        <!-- <div class="note-delete" (click)="onDeleteClick()"><i class="fa fa-trash-o"></i></div> -->
+        <div class="note-title" [contentEditable]="active" (input)="onAnyChange($event)">{{note.title}}</div>
         <div class="note-date">{{note.date | date: 'short'}}</div>
     </div>
-    <div class="note-content" [contentEditable]="active">{{note.content}}</div>
+    <div class="note-content" [contentEditable]="active" (input)="onAnyChange($event)">{{note.content}}</div>
 </div>
