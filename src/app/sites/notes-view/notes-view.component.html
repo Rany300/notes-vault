@@ -1,7 +1,9 @@
 
     <div *ngIf="notesService.notes$ | async as notes" class="notes">
-        <app-note *ngFor="let note of notes" [onNoteClose]="onNoteClose" [onNoteDelete]="onNoteDelete" [note]="note" [active]="(activeNote$ | async) === note.uid" 
-        (click)="onNoteClick(note)"></app-note>
+        <app-note *ngFor="let note of notes" [onNoteClose]="onNoteClose" [onNoteDelete]="onNoteDelete" [note]="note" [active]="(activeNote$ | async)?.uid === note.uid"
+        (click)="onNoteClick(note)">
+
+    </app-note>
     </div>
         
     <div *ngIf="!(notesService.notes$ | async)">
