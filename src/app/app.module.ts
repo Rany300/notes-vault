@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatCardModule} from '@angular/material/card';
 import { NoteComponent } from './components/main/note/note.component';
 import { ColorSelectorComponent } from './components/main/color-selector/color-selector.component';
+import { AddNoteComponent } from './sites/add-note/add-note.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,7 @@ import { ColorSelectorComponent } from './components/main/color-selector/color-s
     MainViewComponent,
     NoteComponent,
     ColorSelectorComponent,
+    AddNoteComponent,
   ],
   imports: [
     BrowserModule,

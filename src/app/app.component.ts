@@ -1,27 +1,32 @@
 import { Component } from '@angular/core';
 import { NavigationProp } from './components/main/navigation/navigation.model';
 import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  styleUrls: ['./app.component.sass'],
 })
 export class AppComponent {
   title = 'notes-vault';
 
-  // router links
   navigationProps: NavigationProp[];
 
-
-
-  constructor(public authService: AuthService) { 
-    
+  constructor(private router: Router, public authService: AuthService) {
     this.navigationProps = [
       {
         name: 'Home',
         path: '/',
         viewable: 'always',
+      },
+      {
+        name: 'Add Note',
+        path: '/add',
+        viewable: 'logged-in',
+        action: () => {
+          router.navigate(['/add']);
+        },
       },
       {
         name: 'SignOut',
@@ -30,7 +35,5 @@ export class AppComponent {
         action: () => this.authService.signOut(),
       },
     ];
-
   }
-
 }
