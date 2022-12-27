@@ -27,4 +27,17 @@ export class NotesViewComponent implements OnInit {
     this.activeNote$ = of(note.uid);
   }
 
+  onNoteClose() {
+    console.log('close');
+    // change activeNote$ to ""
+
+    this.activeNote$ = of(null);
+
+  }
+
+  onNoteDelete(noteId: string) {
+    this.notesService.deleteNote(noteId);
+  }
+
+
 }

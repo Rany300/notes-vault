@@ -4,6 +4,13 @@
 
     &.active-note
         @apply absolute z-10 h-96 left-0 right-0 top-12 md:left-16 md:right-16 cursor-default overflow-auto #{!important}
+        .note-toolbar
+            // place items left 
+            @apply flex justify-start items-center text-2xl gap-x-4
+            .tool-icon
+                @apply hover:cursor-pointer hover:text-red-500
+
+        
         .note-header
             .note-title
                 @apply text-2xl cursor-text
@@ -16,8 +23,10 @@
         @apply flex justify-between items-center
         .note-title 
             @apply text-lg font-bold
-        .note-date
-            @apply text-sm text-gray-500
+        .date-list
+            @apply flex flex-col
+            .note-date
+                @apply text-sm text-gray-500
     .note-content
         @apply text-gray-700 text-xs line-clamp-6 md:line-clamp-3
             

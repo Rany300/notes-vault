@@ -91,11 +91,10 @@ export class NotesService {
   }
 
   async deleteNote(uid: string) {
-    this.authService.user$.subscribe((user) => {
-      if (user !== null && user !== undefined) {
-        this.afs.collection(`notes/${user.uid}/notes`).doc(uid).delete();
-      }
-    }).unsubscribe();
+    const user = await this.authService.user;
+    if (user) {
+      this.afs.collection(`notes/${user.uid}/notes`).doc(uid).delete();
+    }
   }
 
   async upsertNote(

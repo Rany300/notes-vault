@@ -32,7 +32,7 @@ import { NoteComponent } from './components/main/note/note.component';
     FontAwesomeModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -3,6 +3,8 @@ import { Note } from 'src/app/services/note.model';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { NotesService } from 'src/app/services/notes.service';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-note',
@@ -12,8 +14,14 @@ import { NotesService } from 'src/app/services/notes.service';
 export class NoteComponent implements OnInit {
   private static readonly DEBOUNCE_TIME = 500;
 
+  faTrashAlt = faTrashAlt;
+  faTimes = faTimes;
+
   @Input() note!: Note;
   @Input() active!: boolean;
+  @Input() onNoteClose!: () => void;
+  @Input() onNoteDelete!: (noteId: string) => void;
+
 
   private titleChange$ = new Subject<string>();
   private contentChange$ = new Subject<string>();
@@ -65,6 +73,7 @@ export class NoteComponent implements OnInit {
       });
   }
 
+
   private updateNote() {
     this.notesService.upsertNote(
       this.note.title,
@@ -74,6 +83,9 @@ export class NoteComponent implements OnInit {
       this.note.uid
     );
   }
+
+
+
 
 
 }
