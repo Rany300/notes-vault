@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotesService } from 'src/app/services/notes.service';
 import { Note } from 'src/app/services/note.model';
-import { Subject, ReplaySubject, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-notes-view',
@@ -9,35 +8,41 @@ import { Subject, ReplaySubject, BehaviorSubject } from 'rxjs';
   styleUrls: ['./notes-view.component.sass'],
 })
 export class NotesViewComponent implements OnInit {
+  activeNoteId: string;
 
-  activeNote$: Subject<Note | null>;
-
-
-  constructor(
-    public notesService: NotesService
-  ) { 
-    this.activeNote$ = new BehaviorSubject<Note | null>(null);
+  constructor(public notesService: NotesService) {
+    this.activeNoteId = '';
   }
 
-  ngOnInit(): void {
-    this.activeNote$.subscribe(note => {
-        console.log('activeNote$', note);
-      }
-    );
-  }
+  ngOnInit(): void {}
 
   onNoteClick(note: Note) {
-    this.activeNote$.next(note);
+    console.log('onNoteOpen()');
+    this.activeNoteId = note.uid || '';
+  }
+
+  onNoteOpen(note: Note) {
+    this.activeNoteId = note.uid || '';
   }
 
   onNoteClose() {
-    console.log('close');
-    this.activeNote$.next(null);
+    // TODO: This is rather a workaround than a solution
+    /* 
+     *PROBLEM: While clicking the close button, the click event is also being fired on the note itself.
+     */
+
+     //Workaround: Wait for the click event to be fired on the note and then close the note.
+    setTimeout(() => {
+      this.activeNoteId = '';
+    }
+    , 100);
+
+
+
+
   }
 
   onNoteDelete(noteId: string) {
     this.notesService.deleteNote(noteId);
   }
-
-
 }

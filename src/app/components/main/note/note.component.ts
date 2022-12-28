@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Note } from 'src/app/services/note.model';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { NotesService } from 'src/app/services/notes.service';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { NotesViewComponent } from 'src/app/sites/notes-view/notes-view.component';
 
 @Component({
   selector: 'app-note',
@@ -19,8 +20,16 @@ export class NoteComponent implements OnInit {
 
   @Input() note!: Note;
   @Input() active!: boolean;
-  @Input() onNoteClose!: () => void;
   @Input() onNoteDelete!: (noteId: string) => void;
+
+  @Output() noteCloseEmitter = new EventEmitter();
+  
+
+  onNoteClose() {
+    console.log('Start emitting');
+    this.noteCloseEmitter.emit();
+  }
+  
 
 
   private titleChange$ = new Subject<string>();
