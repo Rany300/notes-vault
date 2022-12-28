@@ -1,1 +1,6 @@
-<p>color-selector works!</p>
+
+<div class="colorSelector">
+    <div *ngFor="let color of colors" class="color" [ngClass]="{'selected': color === selectedColor}" (click)="selectColor(color)">
+        <div class="color__inner" [ngStyle]="{'background-color': color}"></div>
+    </div>
+</div>

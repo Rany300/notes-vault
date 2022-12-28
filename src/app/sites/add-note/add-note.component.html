@@ -18,5 +18,8 @@
           </button>
     </mat-form-field>
 
+    <app-color-selector formControlName="color"></app-color-selector>
+
     <button mat-raised-button color="primary" type="submit" [disabled]="noteForm.invalid">Add note</button>
   </form>
+  {{noteForm.value | json}}

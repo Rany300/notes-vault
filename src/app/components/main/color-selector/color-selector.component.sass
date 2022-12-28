@@ -1,0 +1,10 @@
+.colorSelector
+    @apply flex flex-row items-center justify-center w-full gap-x-2
+    .color
+        @apply rounded-full overflow-hidden cursor-pointer
+        // and if it is selected
+        &.selected
+            @apply border-2 border-black
+        .color__inner
+            @apply h-8 w-8
+    

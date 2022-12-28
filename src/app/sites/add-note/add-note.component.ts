@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Note } from 'src/app/services/note.model';
+import { Colors, Note } from 'src/app/services/note.model';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { NotesService } from 'src/app/services/notes.service';
@@ -17,8 +17,6 @@ export class AddNoteComponent implements OnInit {
    noteForm = new FormGroup({
     title: new FormControl(''),
     content: new FormControl(''),
-    date: new FormControl(''),
-    updatedAt: new FormControl(''),
     color: new FormControl(''),
     isPinned: new FormControl(''),
   });
@@ -42,12 +40,13 @@ export class AddNoteComponent implements OnInit {
     //   'yellow',
     //   false,
     // );
+    console.log("noteForm: ", this.noteForm.value);
 
 
     const valid = this.schemaService.validateSchema(jsonSchema, {
       title: this.noteForm.value.title,
       content: this.noteForm.value.content,
-      color: "green",
+      color: this.noteForm.value.color,
       isPinned: false,
     });
 
@@ -55,7 +54,7 @@ export class AddNoteComponent implements OnInit {
       await this.notesService.upsertNote(
         this.noteForm.value.title!,
         this.noteForm.value.content!,
-        "green",
+        this.noteForm.value.color! as Note['color'],
         false,
       );
       console.log("note got added");

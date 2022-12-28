@@ -1,11 +1,19 @@
+
+enum Colors {
+    yellow = 'yellow',
+    green = 'green',
+    blue = 'blue',
+    red = 'red'
+}
+
 type Note = {
     uid?: string;
     title: string;
     content: string;
     date: string;
     updatedAt: string;
-    color: 'yellow' | 'green' | 'blue' | 'red';
+    color: Colors;
     isPinned: boolean;
 }
 
-export { Note };
+export { Note, Colors }
