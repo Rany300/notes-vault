@@ -1,1 +1,22 @@
-<p>add-note works!</p>
+<form [formGroup]="noteForm" class="note-form" (ngSubmit)="onSubmit()">
+    <mat-form-field class="form-field">
+        <mat-label class="form-label">Note title</mat-label>
+        <input class="form-input" matInput formControlName="title" placeholder="Title">
+        <button *ngIf="noteForm.get('title')"
+        matSuffix mat-icon-button aria-label="Clear" 
+        (click)="noteForm.get('title')?.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+        <mat-label class="form-label">Note content</mat-label>
+        <textarea class="form-input" matInput formControlName="content" placeholder="Content"></textarea>
+        <button *ngIf="noteForm.get('content')"
+        matSuffix mat-icon-button aria-label="Clear" 
+        (click)="noteForm.get('content')?.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="noteForm.invalid">Add note</button>
+  </form>

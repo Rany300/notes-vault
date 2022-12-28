@@ -12,7 +12,7 @@ import { switchMap } from 'rxjs/operators';
 export class NotesService {
   // static maxNotes = 100;
 
-  private static readonly MAX_NOTES = 5;
+  private static readonly MAX_NOTES = 500;
 
   notes$: Observable<Note[] | null | undefined>;
 
@@ -49,12 +49,12 @@ export class NotesService {
     //   false
     // );
 
-    this.upsertNote(
-      'Note Title',
-      'Note Content',
-      'yellow',
-      false,
-    );
+    // this.upsertNote(
+    //   'Note Title',
+    //   'Note Content',
+    //   'yellow',
+    //   false,
+    // );
   }
 
   /**
