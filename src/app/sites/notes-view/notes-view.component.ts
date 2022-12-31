@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NotesService } from 'src/app/services/notes.service';
 import { Note } from 'src/app/services/note.model';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-notes-view',

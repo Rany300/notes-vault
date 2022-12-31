@@ -1,14 +1,25 @@
-<div class="note" [ngStyle]="{'background-color': note.color}" [ngClass]="{'active-note': active}">
+<form [formGroup]="noteForm">
+    <div class="note" [ngStyle]="{'background-color': note.color}" [ngClass]="{'active-note': active}" >
     <div class="note-toolbar" *ngIf="active">
         <fa-icon class="tool-icon" [icon]="faTimes" (click)="onNoteClose()"></fa-icon>
         <fa-icon class="tool-icon" [icon]="faTrashAlt" (click)="onNoteDelete(note.uid ?? '')"></fa-icon>
+        <app-color-selector class="color-selector" formControlName="color"></app-color-selector>
+        <!-- {{note | json}}} -->
     </div> 
     <div class="note-header">
-        <div class="note-title" [contentEditable]="active" (input)="onAnyChange($event)">{{note.title}}</div>
+        <!-- <div class="note-title" [contentEditable]="active" 
+        [formControlName]="'title'">
+    {{note.title}}
+    </div> -->
+    <input type="text" formControlName="title" class="note-title" />
         <div class="date-list">
             <div class="note-date">{{note.date | date: 'short'}}</div>
             <div class="note-date" *ngIf="note.updatedAt !== note.date ">{{note.updatedAt | date: 'short'}}</div>
         </div>
     </div>
-    <div class="note-content" [contentEditable]="active" (input)="onAnyChange($event)">{{note.content}}</div>
+    <!-- <div class="note-content" [contentEditable]="active"
+    [formControlName]="'content'">{{note.content}}</div> -->
+    <textarea formControlName="content" class="note-content" ></textarea>
 </div>
+<!-- <input type="text" formControlName="title" /> -->
+</form>

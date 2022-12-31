@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Note } from 'src/app/services/note.model';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Colors, Note } from 'src/app/services/note.model';
 import { NotesService } from 'src/app/services/notes.service';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { NotesViewComponent } from 'src/app/sites/notes-view/notes-view.component';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-note',
@@ -13,88 +12,89 @@ import { NotesViewComponent } from 'src/app/sites/notes-view/notes-view.componen
   styleUrls: ['./note.component.sass'],
 })
 export class NoteComponent implements OnInit {
-  private static readonly DEBOUNCE_TIME = 500;
+  private static readonly DEBOUNCE_TIME = 5000;
 
   faTrashAlt = faTrashAlt;
   faTimes = faTimes;
 
-  @Input() note!: Note;
-  @Input() active!: boolean;
-  @Input() onNoteDelete!: (noteId: string) => void;
 
+  _note: Note = {
+    title: '',
+    content: '',
+    color: Colors.yellow,
+    isPinned: false,
+    date: new Date().toDateString(),
+    updatedAt: new Date().toDateString(),
+    uid: '',
+  };
+
+  noteForm = new FormGroup({
+    title: new FormControl(this.note.title),
+    content: new FormControl(this.note.content),
+    color: new FormControl(this.note.color),
+  });
+  private formChangesSubscription!: Subscription;
+
+
+  @Input()
+  set note(note: Note) {
+    this._note = note;
+    this.noteForm.patchValue({
+      title: note.title,
+      content: note.content,
+      color: note.color,
+    });
+  }
+  get note(): Note {
+    return this._note;
+  }
+
+  @Input() active!: boolean;
   @Output() noteCloseEmitter = new EventEmitter();
-  
+  @Output() noteDeleteEmitter = new EventEmitter<string>();
+
+  onNoteDelete(noteId: string) {
+    console.log('Start emitting');
+    this.noteDeleteEmitter.emit(noteId);
+  }
 
   onNoteClose() {
     console.log('Start emitting');
     this.noteCloseEmitter.emit();
   }
-  
 
+  private debounceTimer: NodeJS.Timeout | null = null;
 
-  private titleChange$ = new Subject<string>();
-  private contentChange$ = new Subject<string>();
+  constructor(private notesService: NotesService) {}
 
-  constructor(
-    private notesService: NotesService,
-  ) {}
+  ngOnInit(): void {
+    this.formChangesSubscription = this.noteForm.valueChanges.subscribe(
+      (form) => {
+        if (this.debounceTimer) {
+          clearTimeout(this.debounceTimer);
+        }
 
-  ngOnInit(): void {}
-
-  public onAnyChange(event: Event) {
-    //console.log(event);
-    const element = event.target as HTMLElement;
-    const classes = element.classList;
-    const input = element.innerText;
-
-    switch (true) {
-      case classes.contains('note-title'):
-        this.onTitleChange(input);
-        break;
-      case classes.contains('note-content'):
-        this.onContentChange(input);
-        break;
-      default:
-        break;
-    }
-  }
-
-  private onTitleChange(input: string) {
-    // Debounce
-    this.titleChange$.next(input);
-    this.titleChange$
-      .pipe(debounceTime(NoteComponent.DEBOUNCE_TIME), distinctUntilChanged())
-      .subscribe((input) => {
-        this.note.title = input;
-        this.updateNote();
-      });
-  }
-
-  private onContentChange(input: string) {
-    // Debounce
-    this.contentChange$.next(input);
-    this.contentChange$
-      .pipe(debounceTime(NoteComponent.DEBOUNCE_TIME), distinctUntilChanged())
-      .subscribe((input) => {
-        this.note.content = input;
-        console.log(this.note.content);
-        this.updateNote();
-      });
-  }
-
-
-  private updateNote() {
-    this.notesService.upsertNote(
-      this.note.title,
-      this.note.content,
-      this.note.color,
-      this.note.isPinned,
-      this.note.uid
+        this.debounceTimer = setTimeout(() => {
+          this.updateNote(
+            form.title || '',
+            form.content || '',
+            form.color || Colors.yellow,
+            this.note.isPinned || false,
+            this.note.uid || ''
+          );
+        }, NoteComponent.DEBOUNCE_TIME);
+      }
     );
   }
 
-
-
-
-
+  private updateNote(
+    title: string,
+    content: string,
+    color: Note['color'],
+    isPinned: Note['isPinned'],
+    uid: Note['uid']
+  ) {
+    console.log('Updating note');
+    this.notesService.upsertNote(title, content, color, isPinned, uid);
+  }
 }

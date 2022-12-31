@@ -1,13 +1,12 @@
 
     <div *ngIf="notesService.notes$ | async as notes" class="notes">
-        <app-note *ngFor="let note of notes" [onNoteDelete]="onNoteDelete" [note]="note" [active]="activeNoteId === note.uid"
+        <app-note *ngFor="let note of notes" [note]="note" [active]="activeNoteId === note.uid"
         (click)="note.uid === activeNoteId ? null : onNoteClick(note)"
         (noteCloseEmitter)="onNoteClose()"
+        (noteDeleteEmitter)="onNoteDelete(note.uid ?? '')"
         >
-
     </app-note>
     </div>
-        
     <div *ngIf="!(notesService.notes$ | async)">
         <mat-spinner></mat-spinner>
     </div>

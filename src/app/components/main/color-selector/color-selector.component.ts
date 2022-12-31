@@ -1,4 +1,4 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Colors, Note } from 'src/app/services/note.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -21,8 +21,9 @@ export class ColorSelectorComponent implements ControlValueAccessor, OnInit {
   
   colors: Colors[] = Object.values(Colors)
   // TODO: Initial value does not work yet
-  selectedColor: Note['color'] = Colors.yellow
+  @Input() selectedColor!: Note['color'] | undefined;
 
+  @Output() onColorChange = new EventEmitter<Note['color']>();
 
   constructor() {}
 
@@ -47,10 +48,7 @@ export class ColorSelectorComponent implements ControlValueAccessor, OnInit {
     this.selectedColor = color
     this.onChange(color)
     this.onTouched()
+    this.onColorChange.emit(color)
   }
 
-
-  public get color(): Note['color'] {
-    return this.selectedColor;
-  }
 }
