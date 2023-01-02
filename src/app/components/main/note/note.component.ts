@@ -93,7 +93,7 @@ export class NoteComponent implements OnInit {
     );
   }
 
-  private updateNote(
+  private async updateNote(
     title: string,
     content: string,
     color: Note['color'],
@@ -101,6 +101,19 @@ export class NoteComponent implements OnInit {
     uid: Note['uid']
   ) {
     console.log('Updating note');
-    this.notesService.upsertNote(title, content, color, isPinned, uid);
+
+    try {
+      await this.notesService.upsertNote(
+        title,
+        content,
+        color,
+        isPinned,
+        uid
+      );
+    }
+    catch (error) {
+      console.log(error);
+    }
+
   }
 }

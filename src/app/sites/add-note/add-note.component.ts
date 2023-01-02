@@ -34,12 +34,6 @@ export class AddNoteComponent implements OnInit {
 
   async onSubmit() {
     const jsonSchema = createNoteSchema;
-      // this.upsertNote(
-    //   'Note Title',
-    //   'Note Content',
-    //   'yellow',
-    //   false,
-    // );
     console.log("noteForm: ", this.noteForm.value);
 
 
@@ -51,6 +45,7 @@ export class AddNoteComponent implements OnInit {
     });
 
     if (valid) {
+      try {
       await this.notesService.upsertNote(
         this.noteForm.value.title!,
         this.noteForm.value.content!,
@@ -58,8 +53,10 @@ export class AddNoteComponent implements OnInit {
         false,
       );
       console.log("note got added");
-      
       this.router.navigate(['/']);
+      } catch (error) {
+        console.log(error);
+      }
 
     }
 

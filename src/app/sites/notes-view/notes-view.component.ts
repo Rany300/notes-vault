@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotesService } from 'src/app/services/notes.service';
 import { Note } from 'src/app/services/note.model';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-notes-view',
@@ -43,7 +42,11 @@ export class NotesViewComponent implements OnInit {
 
   }
 
-  onNoteDelete(noteId: string) {
-    this.notesService.deleteNote(noteId);
+  async onNoteDelete(noteId: string) {
+    try {
+    await this.notesService.deleteNote(noteId);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
