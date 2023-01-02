@@ -9,7 +9,7 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class NotesService {
-  private static readonly MAX_NOTES = 20;
+  private static readonly MAX_NOTES = 15;
 
   notes$: Observable<Note[] | null | undefined>;
 

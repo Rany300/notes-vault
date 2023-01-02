@@ -17,7 +17,7 @@ export class AddNoteComponent implements OnInit {
    noteForm = new FormGroup({
     title: new FormControl(''),
     content: new FormControl(''),
-    color: new FormControl(''),
+    color: new FormControl(Colors.yellow),
     isPinned: new FormControl(''),
   });
   
@@ -55,7 +55,8 @@ export class AddNoteComponent implements OnInit {
       console.log("note got added");
       this.router.navigate(['/']);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
+        alert(error);
       }
 
     }
