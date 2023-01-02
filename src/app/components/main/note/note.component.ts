@@ -6,16 +6,20 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
+// <i class="fa-thin fa-user-pen"></i>
+import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-note',
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.sass'],
 })
 export class NoteComponent implements OnInit {
-  private static readonly DEBOUNCE_TIME = 5000;
+  private static readonly DEBOUNCE_TIME = 1000;
 
   faTrashAlt = faTrashAlt;
   faTimes = faTimes;
+  faUserEdit = faUserEdit;
 
 
   _note: Note = {
@@ -65,7 +69,9 @@ export class NoteComponent implements OnInit {
 
   private debounceTimer: NodeJS.Timeout | null = null;
 
-  constructor(private notesService: NotesService) {}
+  constructor(private notesService: NotesService,
+    ) {
+  }
 
   ngOnInit(): void {
     this.formChangesSubscription = this.noteForm.valueChanges.subscribe(

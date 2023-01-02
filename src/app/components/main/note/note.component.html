@@ -13,8 +13,13 @@
     </div> -->
     <input type="text" formControlName="title" class="note-title" />
         <div class="date-list">
-            <div class="note-date">{{note.date | date: 'short'}}</div>
-            <div class="note-date" *ngIf="note.updatedAt !== note.date ">{{note.updatedAt | date: 'short'}}</div>
+            <div class="note-date">
+                <div>{{note.date | date: 'short'}}</div>
+            </div>
+            <div class="note-date" *ngIf="note.updatedAt !== note.date">
+                <fa-icon class="tool-icon" [icon]="faUserEdit"></fa-icon>
+                <div >{{note.updatedAt | date: 'short'}}</div>
+            </div>
         </div>
     </div>
     <!-- <div class="note-content" [contentEditable]="active"
