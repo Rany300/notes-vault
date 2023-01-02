@@ -7,10 +7,6 @@
         <!-- {{note | json}}} -->
     </div> 
     <div class="note-header">
-        <!-- <div class="note-title" [contentEditable]="active" 
-        [formControlName]="'title'">
-    {{note.title}}
-    </div> -->
     <input type="text" formControlName="title" class="note-title" />
         <div class="date-list">
             <div class="note-date">
@@ -22,9 +18,6 @@
             </div>
         </div>
     </div>
-    <!-- <div class="note-content" [contentEditable]="active"
-    [formControlName]="'content'">{{note.content}}</div> -->
     <textarea formControlName="content" class="note-content" ></textarea>
 </div>
-<!-- <input type="text" formControlName="title" /> -->
 </form>

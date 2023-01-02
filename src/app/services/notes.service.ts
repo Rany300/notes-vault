@@ -76,15 +76,7 @@ async updateNote(uid: string, title: Note['title'], content: Note['content'], co
 }
 
 
-  async deleteNote(uid: string) {
-    const user = await this.authService.user;
-    if (user) {
-      this.afs.collection(`notes/${user.uid}/notes`).doc(uid).delete();
-    }
-  }
-
-
-  async upsertNote(
+async upsertNote(
     title: Note['title'],
     content: Note['content'],
     color: Note['color'],
@@ -98,7 +90,7 @@ async updateNote(uid: string, title: Note['title'], content: Note['content'], co
     const notes = await this.notes;
     // If notes.length is undefined then return null
     if (notes === null || notes === undefined) {
-      return;
+      throw new Error('Notes not loaded');
     }
 
     if (!uid) {
@@ -111,8 +103,15 @@ async updateNote(uid: string, title: Note['title'], content: Note['content'], co
       // update an existing note
       this.updateNote(uid, title, content, color, isPinned);
     }
-  }
+}
 
+
+  async deleteNote(uid: string) {
+    const user = await this.authService.user;
+    if (user) {
+      this.afs.collection(`notes/${user.uid}/notes`).doc(uid).delete();
+    }
+  }
 
   
 
