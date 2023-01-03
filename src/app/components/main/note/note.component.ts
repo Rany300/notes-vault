@@ -6,8 +6,9 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-// <i class="fa-thin fa-user-pen"></i>
 import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import { SchemaService } from 'src/app/services/schema.service';
+import updateNoteSchema from 'schemas/update-note-schema';
 
 @Component({
   selector: 'app-note',
@@ -20,7 +21,6 @@ export class NoteComponent implements OnInit {
   faTrashAlt = faTrashAlt;
   faTimes = faTimes;
   faUserEdit = faUserEdit;
-
 
   _note: Note = {
     title: '',
@@ -38,7 +38,6 @@ export class NoteComponent implements OnInit {
     color: new FormControl(this.note.color),
   });
   private formChangesSubscription!: Subscription;
-
 
   @Input()
   set note(note: Note) {
@@ -69,9 +68,10 @@ export class NoteComponent implements OnInit {
 
   private debounceTimer: NodeJS.Timeout | null = null;
 
-  constructor(private notesService: NotesService,
-    ) {
-  }
+  constructor(
+    private notesService: NotesService,
+    private schemaService: SchemaService
+  ) {}
 
   ngOnInit(): void {
     this.formChangesSubscription = this.noteForm.valueChanges.subscribe(
@@ -103,17 +103,22 @@ export class NoteComponent implements OnInit {
     console.log('Updating note');
 
     try {
-      await this.notesService.upsertNote(
+      const schemaValid = this.schemaService.validateSchema(updateNoteSchema, {
         title,
         content,
         color,
         isPinned,
-        uid
-      );
-    }
-    catch (error) {
-      console.log(error);
-    }
+        uid,
+      });
 
+      if (!schemaValid) {
+        throw new Error('Invalid note input');
+      }
+
+      await this.notesService.upsertNote(title, content, color, isPinned, uid);
+    } catch (error) {
+      console.error('Error updating note: ', error);
+      alert('Error updating note: ' + error);
+    }
   }
 }

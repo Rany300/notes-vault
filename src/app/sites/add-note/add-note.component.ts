@@ -9,66 +9,51 @@ import createNoteSchema from 'schemas/create-note-schema';
 @Component({
   selector: 'app-add-note',
   templateUrl: './add-note.component.html',
-  styleUrls: ['./add-note.component.sass']
+  styleUrls: ['./add-note.component.sass'],
 })
 export class AddNoteComponent implements OnInit {
-
-
-   noteForm = new FormGroup({
+  noteForm = new FormGroup({
     title: new FormControl(''),
     content: new FormControl(''),
     color: new FormControl(Colors.yellow),
     isPinned: new FormControl(''),
   });
-  
 
   constructor(
     private router: Router,
     private schemaService: SchemaService,
-    private notesService: NotesService,
-  ) { 
-  }
+    private notesService: NotesService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   async onSubmit() {
     const jsonSchema = createNoteSchema;
-    console.log("noteForm: ", this.noteForm.value);
+    console.log('noteForm: ', this.noteForm.value);
 
+    try {
+      const valid = this.schemaService.validateSchema(jsonSchema, {
+        title: this.noteForm.value.title,
+        content: this.noteForm.value.content,
+        color: this.noteForm.value.color,
+        isPinned: false,
+      });
 
-    const valid = this.schemaService.validateSchema(jsonSchema, {
-      title: this.noteForm.value.title,
-      content: this.noteForm.value.content,
-      color: this.noteForm.value.color,
-      isPinned: false,
-    });
+      if (!valid) {
+        throw new Error('Invalid note input');
+      }
 
-    if (valid) {
-      try {
       await this.notesService.upsertNote(
         this.noteForm.value.title!,
         this.noteForm.value.content!,
         this.noteForm.value.color! as Note['color'],
-        false,
+        false
       );
-      console.log("note got added");
+      console.log('note got added');
       this.router.navigate(['/']);
-      } catch (error) {
-        //console.log(error);
-        alert(error);
-      }
-
+    } catch (error) {
+      console.log('error: ', error);
+      alert(error);
     }
-
-
-
-
-
-
-
-    
-    
   }
-
 }
